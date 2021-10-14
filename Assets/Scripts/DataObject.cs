@@ -16,7 +16,7 @@ public class DataObject : MonoBehaviour
     private Quaternion previousRotation;
 
 
-    private bool firstRun = true;
+    public bool firstRun = true;
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class DataObject : MonoBehaviour
     {
         if (!ObjectController.GetRest)
         {
-            
+            firstRun = true;
             if (frameCounter < keyframe)
             {
                 frameCounter += 1;
@@ -52,6 +52,11 @@ public class DataObject : MonoBehaviour
             else
             {
                 reverseCounter = keyframe;
+                RestorePositions();
+            }
+            if (firstRun)
+            {
+                firstRun = false;
                 RestorePositions();
             }
 
