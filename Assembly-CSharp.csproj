@@ -53,12 +53,12 @@
     <UnityVersion>2020.3.17f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\LineRender.cs" />
-    <Compile Include="Assets\Scripts\ControlScript.cs" />
-    <Compile Include="Assets\Scripts\Test.cs" />
-    <Compile Include="Assets\Scripts\TimeManager.cs" />
-    <Compile Include="Assets\Scripts\ObjectController.cs" />
     <Compile Include="Assets\Scripts\DataObject.cs" />
+    <Compile Include="Assets\Scripts\LineRender.cs" />
+    <Compile Include="Assets\Scripts\ObjectController.cs" />
+    <Compile Include="Assets\Scripts\ControlScript.cs" />
+    <Compile Include="Assets\Scripts\Keyframe.cs" />
+    <Compile Include="Assets\Scripts\IJobMove.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

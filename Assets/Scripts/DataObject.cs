@@ -1,73 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class DataObject : MonoBehaviour
 {
-	private int arr = 500;
-	private Rigidbody rig;
-	private Transform tr;
-	private Vector3[] pos;
-	private Quaternion[] rot;
-	private Vector3[] vel;
-	private Vector3[] ang_vel;
-	private int T_A;
-	private int T_B;
-	private int timer;
+    private ArrayList keyframes;
+    private int keyframe = 5;
+    private int frameCounter = 0;
+    private int reverseCounter = 0;
 
-	void Awake()
-	{
-		pos = new Vector3[arr];
-		rot = new Quaternion[arr];
-		vel = new Vector3[arr];
-		ang_vel = new Vector3[arr];
-		rig = GetComponent<Rigidbody>();
-		tr = transform;
-	}
+    private Rigidbody rig;
 
-	void Rec()
-	{
-		pos[T_A] = tr.position;
-		rot[T_A] = tr.rotation;
-		vel[T_A] = rig.velocity;
-		ang_vel[T_A] = rig.angularVelocity;
-		if (T_A < arr - 1) T_A++; else T_A = 0;
-	}
-
-	void Rew()
-	{
-		if (timer > 1)
-		{
-			if (T_B > 0)
-			{
-				T_B--;
-				timer--;
-				T_A = T_B;
-				tr.position = pos[T_B];
-				tr.rotation = rot[T_B];
-				rig.velocity = vel[T_B];
-				rig.angularVelocity = ang_vel[T_B];
-			}
-			else
-			{
-				T_B = arr - 1;
-
-			}
-		}
-	}
+    private Vector3 currentPosition;
+    private Vector3 previousPosition;
+    private Quaternion currentRotation;
+    private Quaternion previousRotation;
 
 
-	void FixedUpdate()
-	{
-		if (!ObjectController.GetRest)
+    private bool firstRun = true;
+
+    void Start()
+    {
+        rig = gameObject.GetComponent<Rigidbody>();
+        keyframes = new ArrayList();
+    }
+
+
+
+    void FixedUpdate()
+    {
+        if (!ObjectController.GetRest)
         {
-            Rec();
-            T_B = T_A;
-            if (timer < arr - 1) timer++;
+            
+            if (frameCounter < keyframe)
+            {
+                frameCounter += 1;
+            }
+            else
+            {
+                frameCounter = 0;
+                keyframes.Add(new Keyframe(this.gameObject.transform.position, this.gameObject.transform.rotation));
+                
+          }
         }
         else
         {
-            Rew();
+            
+            if (reverseCounter > 0)
+            {
+                reverseCounter -= 1;
+            }
+            else
+            {
+                reverseCounter = keyframe;
+                RestorePositions();
+            }
+
+            float interpolation = (float)reverseCounter / (float)keyframe;
+            this.gameObject.transform.position = Vector3.Lerp(previousPosition, currentPosition, interpolation);
+            this.gameObject.transform.rotation = Quaternion.Lerp(previousRotation, currentRotation, interpolation);
+        }
+
+
+    }
+
+    void RestorePositions()
+    {
+        int lastIndex = keyframes.Count - 1;
+        int secondToLastIndex = keyframes.Count - 2;
+
+        if (secondToLastIndex >= 0)
+        {
+            currentPosition = (keyframes[lastIndex] as Keyframe).position;
+            previousPosition = (keyframes[secondToLastIndex] as Keyframe).position;
+
+            currentRotation = (keyframes[lastIndex] as Keyframe).rotation;
+            previousRotation = (keyframes[secondToLastIndex] as Keyframe).rotation;
+
+            keyframes.RemoveAt(lastIndex);
         }
     }
 }
+
+

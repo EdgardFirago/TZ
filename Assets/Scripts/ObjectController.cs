@@ -20,7 +20,6 @@ public class ObjectController : MonoBehaviour
     private void Awake()
     {
         countObj = this.gameObject.transform.childCount;
-
         gameObjects = new Transform[countObj];
         startPosition = new Vector3[countObj];
         rigidbodies = new Rigidbody[countObj];
