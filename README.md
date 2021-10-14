@@ -1,2 +1,2 @@
 #TZ
-![GIF](GIF.gif)
+![GIF](https://github.com/EdgardFirago/TZ/tree/main/GIF)
