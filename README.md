@@ -1,11 +1,7 @@
-# ShaderTest
+#TZ
 
+Проявил не много оригинальности. Управление пушкой более удобно для Mobile. Так же для прицеливания используется LineRenderer. Если же это не подходит для ТЗ, готов всё изменить.
 
-StensilBufferShader
-![BulletHole](stensil.gif)
+Возможно более оптимально можно было сделать через IJobParallelForTransform.Сам себя же закопал поставив маленькие сроки).
 
-DesolveShader
-![Desolve](Desolve.gif)
-
-Geometry shader
-![Geometry](geom.gif)
+![GIF](https://github.com/EdgardFirago/TZ/blob/main/GIF/GIF.gif)
